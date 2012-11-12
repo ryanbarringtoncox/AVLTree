@@ -17,13 +17,14 @@ private:
 public:
 	AVLTree<T>();
 	~AVLTree<T>();
-	
 	bool find(T v);
+	bool isRoot(Node<T>* n);
 	void remove(T v);
 	void insert(T v);
 	void print();
 	void visualPrint(T def, T leftLeg, T rightLeg);
 	void preOrderTraversal();
+	void leftRotation(Node<T>* n);
 	//void postOrderTraversal();
 };
 

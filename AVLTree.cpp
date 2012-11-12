@@ -37,6 +37,13 @@ bool AVLTree<T>::find(T v) {
 }
 
 template <typename T>
+bool AVLTree<T>::isRoot(Node<T>* n) {
+	if (n == root) return true;
+	else return false;
+}
+
+
+template <typename T>
 void AVLTree<T>::insert(T v) {
 	Node<T>* temp = new Node<T>(v);
 	Node<T>** curr = &root;
@@ -91,10 +98,53 @@ void AVLTree<T>::insert(T v) {
 		
 		//special case: root is cn
 		if (cn == 0 and root->getBalance() == 2) {
-			cout << "Root is CN!" << endl;
 			cn = root;	
 		}
+		
+		//if there is a cn do necessary rotations
+		if (cn != 0) {
+			
+			if (cn->getBalance() == 2) {
+				leftRotation(cn);
+			}
+			
+		}
 	}
+}
+
+template <typename T>
+void AVLTree<T>::leftRotation(Node<T>* n) {
+	cout << "leftRotation called with " << n->getValue() << endl;
+	if (isRoot(n)) {
+		cout << "And it's the root!" << endl;
+		root = n;
+		/*Node<T>* r = root;
+		r->setBalance(0);
+		r->setParent(r->*/
+	}
+	if (isRoot(n->getParent())) {
+		cout << "Parent is root" << endl;
+		Node<T>* p = cn->getParent();
+		n->setParent(*(Node<T>*)(0));
+		//n->setLeftChild(*p);
+		root = n;
+		root->decBalance();
+		root->setLeftChild(*p);
+	}
+	
+	//Node<T>* tempRC = cn->getRightChild();
+	//Node<T>* tempLC = cn->getLeftChild();
+	//nc->setLeftChild(parent);
+	
+	//cout << "Parent is " << p->getValue() << endl;
+	//p->setParent(*n);
+	//p = p->getRightChild();
+	//cout << "Parent is " << p->getValue() << endl;
+	//tempRC->setLeftChild(*n);
+	//n->setRightChild(*tempLC);
+	//n = tempRC;
+	
+	//don't forget to change balances!
 }
 
 template <typename T>
@@ -212,8 +262,6 @@ void AVLTree<T>::traversalPrintPre(Node<T>* root) {
 		traversalPrintPre(root->getRightChild());
 	}
 }
-
-
 
 template class AVLTree<int>;
 template class AVLTree<double>;

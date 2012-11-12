@@ -58,6 +58,8 @@ Node<T>*& Node<T>::getParent() {
 template <typename T>
 void Node<T>::setParent(Node<T>& p) {
 	parent = &p;
+	if (parent->getValue() > this->getValue()) parent->setLeftChild(*this);
+	else parent->setRightChild(*this);
 }
 
 template class Node<int>;
