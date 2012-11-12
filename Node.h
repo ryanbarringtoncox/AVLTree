@@ -16,6 +16,7 @@ public:
 	int getBalance();
 	void incBalance();
 	void decBalance();
+	void nullParent();	
 	
 	Node<T>*& getLeftChild();
 	void setLeftChild(Node<T>& n);

@@ -11,6 +11,11 @@ Node<T>::Node(T v) {
 }
 
 template <typename T>
+void Node<T>::nullParent() {
+	parent=0;;
+}
+
+template <typename T>
 T Node<T>::getValue() {
 	return value;
 }

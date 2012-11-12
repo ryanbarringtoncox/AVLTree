@@ -10,12 +10,12 @@ int main() {
 
   s->insert("ccc");	
   s->insert("ggg");
-  //s->insert("aaa");
+  s->insert("aaa");
   s->insert("ppp");
-  //s->insert("zzz");	
+  s->insert("zzz");	
   //s->insert("eee");
   //s->insert("ddd");	
-  s->preOrderTraversal();
+  s->inOrderTraversal();
 		
   s->visualPrint("   ", " / ", " \\ ");
 	

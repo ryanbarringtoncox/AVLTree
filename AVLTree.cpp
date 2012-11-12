@@ -58,11 +58,10 @@ void AVLTree<T>::insert(T v) {
 		//find the spot for new node
 		Node<T>* parent;		
 		while (*curr != 0) {
+			parent = *curr;			
 			if (v < (*curr)->getValue()) {
-				parent = *curr;
 				curr = &((*curr)->getLeftChild());
 			} else if (v > (*curr)->getValue()) {
-				parent = *curr;
 				curr = &((*curr)->getRightChild());
 			}
 		}
@@ -77,16 +76,17 @@ void AVLTree<T>::insert(T v) {
 		cn = 0;
 		
 		while (parent != 0) {
-
-			//increment parent balance
-			if (child->getValue() > parent->getValue()) parent->incBalance();
-			else parent->decBalance();
 			
 			//critical node assignment
 			if (cn == 0 && child->getBalance() == 2) {
 				cout << child->getValue() << " is a CN!" << endl;
 				cn = child;
+				break;
 			}
+			
+			//increment parent balance
+			if (child->getValue() > parent->getValue()) parent->incBalance();
+			else parent->decBalance();			
 			
 			//if parent is balanced break while loop no need to increment parental balance
 			if (parent->getBalance() == 0) break;
@@ -118,33 +118,16 @@ void AVLTree<T>::leftRotation(Node<T>* n) {
 	if (isRoot(n)) {
 		cout << "And it's the root!" << endl;
 		root = n;
-		/*Node<T>* r = root;
-		r->setBalance(0);
-		r->setParent(r->*/
 	}
 	if (isRoot(n->getParent())) {
-		cout << "Parent is root" << endl;
-		Node<T>* p = cn->getParent();
-		n->setParent(*(Node<T>*)(0));
-		//n->setLeftChild(*p);
+		Node<T>* p = n->getParent();
+		Node<T>* tempLC = n->getLeftChild();
 		root = n;
-		root->decBalance();
-		root->setLeftChild(*p);
+		root->nullParent();
+		root->setLeftChild(*p);		
+		p->setParent(*root);
+		p->setRightChild(*tempLC);
 	}
-	
-	//Node<T>* tempRC = cn->getRightChild();
-	//Node<T>* tempLC = cn->getLeftChild();
-	//nc->setLeftChild(parent);
-	
-	//cout << "Parent is " << p->getValue() << endl;
-	//p->setParent(*n);
-	//p = p->getRightChild();
-	//cout << "Parent is " << p->getValue() << endl;
-	//tempRC->setLeftChild(*n);
-	//n->setRightChild(*tempLC);
-	//n = tempRC;
-	
-	//don't forget to change balances!
 }
 
 template <typename T>
@@ -239,18 +222,18 @@ void AVLTree<T>::print() {
 }
 
 template <typename T>
-void AVLTree<T>::preOrderTraversal() {
-	cout << "Printing pre-order traversal:" << endl;
-	traversalPrintPre(root);
+void AVLTree<T>::traversalPrint(Node<T>* n) {
+	if(root != 0) {
+		traversalPrint(n->getLeftChild());
+		std::cout << n->getValue() << std::endl;
+		traversalPrint(n->getRightChild());
+	}
 }
 
 template <typename T>
-void AVLTree<T>::traversalPrint(Node<T>* root) {
-	if(root != 0) {
-		traversalPrint(root->getLeftChild());
-		std::cout << root->getValue() << std::endl;
-		traversalPrint(root->getRightChild());
-	}
+void AVLTree<T>::preOrderTraversal() {
+	cout << "Printing pre-order traversal:" << endl;
+	traversalPrintPre(root);
 }
 
 template <typename T>
@@ -260,6 +243,26 @@ void AVLTree<T>::traversalPrintPre(Node<T>* root) {
 		std::cout << "Balance is " << root->getBalance() << endl;
 		traversalPrintPre(root->getLeftChild());
 		traversalPrintPre(root->getRightChild());
+	}
+}
+
+template <typename T>
+void AVLTree<T>::inOrderTraversal() {
+	cout << "Printing in-order traversal with root: " << root->getValue() << endl;
+	traversalPrintIn(root);
+}
+
+template <typename T>
+void AVLTree<T>::traversalPrintIn(Node<T>* n) {
+	if(n != 0) {
+		traversalPrintIn(n->getLeftChild());		
+		std::cout << "Current node pointer is " << n << endl;
+		std::cout << "Value is " << n->getValue() << std::endl;
+		std::cout << "Balance is " << n->getBalance() << endl;
+		std::cout << "Parent is ";
+		if (n->getParent() == 0) cout << "root" << endl << endl;
+		else cout << n->getParent()->getValue() << endl << endl;
+		traversalPrintIn(n->getRightChild());
 	}
 }
 
