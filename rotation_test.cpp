@@ -5,8 +5,7 @@ using std::cout;
 using std::endl;
 
 int main() {
-	
-  cout << "Rotation test" << endl;
+
   AVLTree<std::string>* s = new AVLTree<std::string>();	
 
   s->insert("ccc");	
@@ -16,8 +15,10 @@ int main() {
   s->insert("zzz");	
   //s->insert("eee");
   //s->insert("ddd");	
-  s->inOrderTraversal();
+  //s->inOrderTraversal();
 		
+  s->visualPrint("   ", " / ", " \\ ");
+  s->practiceRotation();
   s->visualPrint("   ", " / ", " \\ ");
 	
 }

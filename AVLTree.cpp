@@ -105,7 +105,8 @@ void AVLTree<T>::insert(T v) {
 		if (cn != 0) {
 			
 			if (cn->getBalance() == 2) {
-				leftRotation(cn);
+				cout << "Stub" << endl;
+				//leftRotation(cn);
 			}
 			
 		}
@@ -113,39 +114,25 @@ void AVLTree<T>::insert(T v) {
 }
 
 template <typename T>
-void AVLTree<T>::leftRotation(Node<T>* n) {
+void AVLTree<T>::practiceRotation() {
+	//Node<T>** dad = &root;
+	Node<T>** dad = &(root->getRightChild());
+	//leftRotation(root, dad);
+	leftRotation(root->getRightChild(), dad);
+}
+
+template <typename T>
+void AVLTree<T>::leftRotation(Node<T>* cn, Node<T>** parent) {
 	
-	cout << "leftRotation called with " << n->getValue() << endl;
-	
-	
-	//left Rotation on Root
-	if (isRoot(n)) {
-		Node<T>* newRoot = root->getRightChild();	
+		cout << "Critical node is " << cn->getValue() << endl;
+		cout << "Parent points at " << (*parent)->getValue() << endl;
+		Node<T>* newRoot = cn->getRightChild();
 		Node<T>* tempLC = newRoot->getLeftChild();
-		Node<T>* oldRoot = root;
-
-		root = newRoot;
-		root->nullParent();
-		root->setLeftChild(*oldRoot);
-		
-
-		oldRoot->setParent(*root);
-		oldRoot->setRightChild(*tempLC);
-
-		//tempLC->setParent(*oldRoot);
-		cout << "HERE" << endl;
-
-	}
-	//left rotation on child of root
-	if (isRoot(n->getParent())) {
-		Node<T>* p = n->getParent();		
-		Node<T>* tempLC = n->getLeftChild();
-		root = n;
-		root->nullParent();
-		root->setLeftChild(*p);		
-		p->setParent(*root);
-		p->setRightChild(*tempLC);
-	}
+		//root = newRoot;
+		*parent = newRoot;
+		newRoot->setLeftChild(*cn);
+		cn->setRightChild(*tempLC);
+	
 }
 
 template <typename T>
