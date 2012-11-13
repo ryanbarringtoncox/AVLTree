@@ -252,18 +252,21 @@ void AVLTree<T>::traversalPrint(Node<T>* n) {
 }
 
 template <typename T>
-void AVLTree<T>::preOrderTraversal() {
-	cout << "Printing pre-order traversal:" << endl;
-	traversalPrintPre(root);
+void AVLTree<T>::postOrderTraversal() {
+	cout << "Printing post-order traversal:" << endl;
+	traversalPrintPost(root);
 }
 
 template <typename T>
-void AVLTree<T>::traversalPrintPre(Node<T>* root) {
-	if(root != 0) {
-		std::cout << "Value is " << root->getValue() << std::endl;
-		std::cout << "Balance is " << root->getBalance() << endl;
-		traversalPrintPre(root->getLeftChild());
-		traversalPrintPre(root->getRightChild());
+void AVLTree<T>::traversalPrintPost(Node<T>* n) {
+	if(n != 0) {
+		traversalPrintPost(n->getLeftChild());
+		traversalPrintPost(n->getRightChild());
+		std::cout << "Value is " << n->getValue() << std::endl;
+		std::cout << "Balance is " << n->getBalance() << endl;
+		std::cout << "Parent is ";		
+		if (n->getParent() == 0) cout << "root" << endl << endl;
+		else cout << n->getParent()->getValue() << endl << endl;		
 	}
 }
 
@@ -277,7 +280,6 @@ template <typename T>
 void AVLTree<T>::traversalPrintIn(Node<T>* n) {
 	if(n != 0) {
 		traversalPrintIn(n->getLeftChild());		
-		std::cout << "Current node pointer is " << n << endl;
 		std::cout << "Value is " << n->getValue() << std::endl;
 		std::cout << "Balance is " << n->getBalance() << endl;
 		std::cout << "Parent is ";

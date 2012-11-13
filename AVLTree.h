@@ -12,7 +12,7 @@ private:
 	Node<T>* root;
 	Node<T>* cn;
 	void traversalPrint(Node<T>* root);
-	void traversalPrintPre(Node<T>* root);	
+	void traversalPrintPost(Node<T>* root);	
 	void traversalPrintIn(Node<T>* root);		
 	void leftRotation(Node<T>* cn, Node<T>** parent);
 	void rightRotation(Node<T>* cn, Node<T>** parent);	
@@ -26,7 +26,7 @@ public:
 	void insert(T v);
 	void print();
 	void visualPrint(T def, T leftLeg, T rightLeg);
-	void preOrderTraversal();
+	void postOrderTraversal();
 	void inOrderTraversal();
 	void practiceRotation();
 };
