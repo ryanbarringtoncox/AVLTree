@@ -1,11 +1,13 @@
 CPP = g++
 CFLAGS = -Wall -Wextra -Werror
 
+all: rotation_test ttest
+
+rotation_test: rotation_test.cpp AVLTree.cpp Node.o Glob.o TwoDArray.o
+	$(CPP) $(CFLAGS) -o rotation_test $^
+
 ttest: tree_test.cpp AVLTree.cpp Node.o Glob.o TwoDArray.o
 	$(CPP) $(CFLAGS) -o ttest $^
-	
-rotation_test: rotation_test.cpp AVLTree.cpp Node.o Glob.o TwoDArray.o
-	$(CPP) $(CFLAGS) -o rotation_test $^	
 
 AVLTree.o: AVLTree.h AVLTree.cpp
 	$(CPP) $(CFLAGS) -c AVLTree.cpp

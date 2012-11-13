@@ -13,13 +13,14 @@ int main() {
   s->insert("ppp");
   //s->insert("zzz");	
   s->insert("eee");
-  s->insert("fff");
+  //s->insert("fff");
   s->insert("ddd");	
   s->insert("aaa");	
-  s->inOrderTraversal();
-  s->postOrderTraversal();
+  //s->postOrderTraversal();
 		
   s->visualPrint("   ", " / ", " \\ ");
+  //s->inOrderTraversal();
+	
   /*s->practiceRotation();
   s->visualPrint("   ", " / ", " \\ ");
 	

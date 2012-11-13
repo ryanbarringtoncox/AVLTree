@@ -55,64 +55,89 @@ void AVLTree<T>::insert(T v) {
 	
 	else {
 
-		//find the spot for new node
-		Node<T>* parent;		
+		//Critical node is null by default
+		cn = 0;
+		
+		//find spot for new node, keep track of potential cns
 		while (*curr != 0) {
-			parent = *curr;			
 			if (v < (*curr)->getValue()) {
+				if ((*curr)->getBalance() == -1) cn = *curr;
 				curr = &((*curr)->getLeftChild());
 			} else if (v > (*curr)->getValue()) {
+				if ((*curr)->getBalance() == 1) cn = *curr;				
 				curr = &((*curr)->getRightChild());
 			}
 		}
 		
-		//set parent pointer
-		temp->setParent(*parent);
-		
 		//insert the node
-		*curr = temp;					
-
-		Node<T>* child = temp;
-		cn = 0;
+		*curr = temp;	
 		
-		while (parent != 0) {
+		//if we have a cn do necessary rotations
+		if (cn) {			
+			cout << "Cn found: " << cn->getValue() << endl;
+			curr = &cn;
+			//cout << "curr is " << curr << endl;
+			cout << "root->getLeftChild() is " << root->getLeftChild() << endl;
+			cout << "*curr is " << *curr << endl;
 			
-			//critical node assignment
-			if (cn == 0 && child->getBalance() == 2) {
-				cout << child->getValue() << " is a CN!" << endl;
-				cn = child;
-				break;
+			if ((*curr)->getBalance()==-1) {
+				cout << "Do right rotation" << endl;
+				//rightRotation(cn, curr);
+				//cout << "Calling rightRotation with root->getLeftChild()" << endl;
+				//rightRotation(cn, &(root->getLeftChild()));	
+				cout << "Calling rightRotation with &(*curr)" << endl;				
+				rightRotation(cn, &(*curr));	
+				//cn->setBalance(0);
 			}
 			
-			//increment parent balance
-			if (child->getValue() > parent->getValue()) parent->incBalance();
-			else parent->decBalance();			
-			
-			//if parent is balanced break while loop no need to increment parental balance
-			if (parent->getBalance() == 0) break;
-			
-			//cout << "Parent balance is " << parent->getBalance() << endl;
-			parent=parent->getParent();
-			child = child->getParent();
 		}
 		
-		//special case: root is cn
-		if (cn == 0 and root->getBalance() == 2) {
-			cn = root;	
-		}
-		
-		//if there is a cn do necessary rotations
-		if (cn != 0) {
-			
-			if (cn->getBalance() == 2) {
-				cout << "Stub" << endl;
-				//leftRotation(cn);
-			}
-			
+		//else update balances
+		else {			
+			curr = &root;
+			while (*curr != 0) {
+				if (v < (*curr)->getValue()) {
+					(*curr)->decBalance();
+					curr = &((*curr)->getLeftChild());
+				} else if (v > (*curr)->getValue()) {
+					(*curr)->incBalance();					
+					curr = &((*curr)->getRightChild());
+				}
+				else if (v == (*curr)->getValue()) break;
+			}			
 		}
 	}
 }
 
+template <typename T>
+void AVLTree<T>::rightRotation(Node<T>* cn, Node<T>** parent) {
+	cout << "Testing cn: " << cn << endl;
+	cout << "Testing cn value: " << cn->getValue() << endl;
+	cout << "Testing cn leftChild: " << cn->getLeftChild() << endl;
+	
+	Node<T>* newRoot = cn->getLeftChild();
+	cout << "Hello?" << endl;
+	cout << "new root is " << newRoot->getValue() << endl;
+	cout << "new root's right child is " << newRoot->getRightChild() << endl;
+	Node<T>* tempRC = newRoot->getRightChild();
+	cout << "Vars assigned" << endl;	
+	
+	*parent = newRoot;
+	newRoot->setRightChild(*cn);
+	cn->setLeftChild(*tempRC);	
+	
+}
+
+template <typename T>
+void AVLTree<T>::leftRotation(Node<T>* cn, Node<T>** parent) {
+	Node<T>* newRoot = cn->getRightChild();
+	Node<T>* tempLC = newRoot->getLeftChild();
+	*parent = newRoot;
+	newRoot->setLeftChild(*cn);
+	cn->setRightChild(*tempLC);	
+}
+
+//used for building/modifying rotations outside of insert
 template <typename T>
 void AVLTree<T>::practiceRotation() {
 	//root left rotation
@@ -131,24 +156,6 @@ void AVLTree<T>::practiceRotation() {
 	Node<T>** dad = &(root->getLeftChild());
 	rightRotation(root->getLeftChild(), dad);
 	
-}
-
-template <typename T>
-void AVLTree<T>::leftRotation(Node<T>* cn, Node<T>** parent) {
-	Node<T>* newRoot = cn->getRightChild();
-	Node<T>* tempLC = newRoot->getLeftChild();
-	*parent = newRoot;
-	newRoot->setLeftChild(*cn);
-	cn->setRightChild(*tempLC);	
-}
-
-template <typename T>
-void AVLTree<T>::rightRotation(Node<T>* cn, Node<T>** parent) {
-	Node<T>* newRoot = cn->getLeftChild();
-	Node<T>* tempRC = newRoot->getRightChild();
-	*parent = newRoot;
-	newRoot->setRightChild(*cn);
-	cn->setLeftChild(*tempRC);	
 }
 
 template <typename T>
