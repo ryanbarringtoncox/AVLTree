@@ -114,13 +114,31 @@ void AVLTree<T>::insert(T v) {
 
 template <typename T>
 void AVLTree<T>::leftRotation(Node<T>* n) {
+	
 	cout << "leftRotation called with " << n->getValue() << endl;
+	
+	
+	//left Rotation on Root
 	if (isRoot(n)) {
-		cout << "And it's the root!" << endl;
-		root = n;
+		Node<T>* newRoot = root->getRightChild();	
+		Node<T>* tempLC = newRoot->getLeftChild();
+		Node<T>* oldRoot = root;
+
+		root = newRoot;
+		root->nullParent();
+		root->setLeftChild(*oldRoot);
+		
+
+		oldRoot->setParent(*root);
+		oldRoot->setRightChild(*tempLC);
+
+		//tempLC->setParent(*oldRoot);
+		cout << "HERE" << endl;
+
 	}
+	//left rotation on child of root
 	if (isRoot(n->getParent())) {
-		Node<T>* p = n->getParent();
+		Node<T>* p = n->getParent();		
 		Node<T>* tempLC = n->getLeftChild();
 		root = n;
 		root->nullParent();

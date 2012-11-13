@@ -3,6 +3,9 @@ CFLAGS = -Wall -Wextra -Werror
 
 ttest: tree_test.cpp AVLTree.cpp Node.o Glob.o TwoDArray.o
 	$(CPP) $(CFLAGS) -o ttest $^
+	
+rotation_test: rotation_test.cpp AVLTree.cpp Node.o Glob.o TwoDArray.o
+	$(CPP) $(CFLAGS) -o rotation_test $^	
 
 AVLTree.o: AVLTree.h AVLTree.cpp
 	$(CPP) $(CFLAGS) -c AVLTree.cpp
@@ -22,3 +25,4 @@ TwoDArray.o: TwoDArray.h TwoDArray.cpp
 clean:
 	rm -f *.o;
 	rm -f node_test;
+	rm -f rotation_test

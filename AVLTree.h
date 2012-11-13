@@ -14,7 +14,6 @@ private:
 	void traversalPrint(Node<T>* root);
 	void traversalPrintPre(Node<T>* root);	
 	void traversalPrintIn(Node<T>* root);		
-	void leftRotation(Node<T>* n);
 	
 public:
 	AVLTree<T>();
@@ -27,6 +26,8 @@ public:
 	void visualPrint(T def, T leftLeg, T rightLeg);
 	void preOrderTraversal();
 	void inOrderTraversal();
+	void leftRotation(Node<T>* n);
+
 };
 
 
