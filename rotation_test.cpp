@@ -8,13 +8,13 @@ int main() {
 
   AVLTree<std::string>* s = new AVLTree<std::string>();	
 
-  s->insert("ccc");	
+  //s->insert("ccc");	
   s->insert("ggg");
-  s->insert("aaa");
   s->insert("ppp");
-  s->insert("zzz");	
-  //s->insert("eee");
-  //s->insert("ddd");	
+  //s->insert("zzz");	
+  s->insert("eee");
+  s->insert("ddd");	
+  s->insert("aaa");	
   //s->inOrderTraversal();
 		
   s->visualPrint("   ", " / ", " \\ ");

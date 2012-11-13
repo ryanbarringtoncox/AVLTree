@@ -15,6 +15,7 @@ private:
 	void traversalPrintPre(Node<T>* root);	
 	void traversalPrintIn(Node<T>* root);		
 	void leftRotation(Node<T>* cn, Node<T>** parent);
+	void rightRotation(Node<T>* cn, Node<T>** parent);	
 	
 public:
 	AVLTree<T>();

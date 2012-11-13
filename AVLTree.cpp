@@ -115,24 +115,40 @@ void AVLTree<T>::insert(T v) {
 
 template <typename T>
 void AVLTree<T>::practiceRotation() {
+	//root left rotation
 	//Node<T>** dad = &root;
-	Node<T>** dad = &(root->getRightChild());
 	//leftRotation(root, dad);
-	leftRotation(root->getRightChild(), dad);
+	
+	//non-root left rotation
+	//Node<T>** dad = &(root->getRightChild());
+	//leftRotation(root->getRightChild(), dad);
+	
+	//root right rotation
+	//Node<T>** dad = &root;
+	//rightRotation(root, dad);	
+	
+	//non-root left rotation
+	Node<T>** dad = &(root->getLeftChild());
+	rightRotation(root->getLeftChild(), dad);
+	
 }
 
 template <typename T>
 void AVLTree<T>::leftRotation(Node<T>* cn, Node<T>** parent) {
-	
-		cout << "Critical node is " << cn->getValue() << endl;
-		cout << "Parent points at " << (*parent)->getValue() << endl;
-		Node<T>* newRoot = cn->getRightChild();
-		Node<T>* tempLC = newRoot->getLeftChild();
-		//root = newRoot;
-		*parent = newRoot;
-		newRoot->setLeftChild(*cn);
-		cn->setRightChild(*tempLC);
-	
+	Node<T>* newRoot = cn->getRightChild();
+	Node<T>* tempLC = newRoot->getLeftChild();
+	*parent = newRoot;
+	newRoot->setLeftChild(*cn);
+	cn->setRightChild(*tempLC);	
+}
+
+template <typename T>
+void AVLTree<T>::rightRotation(Node<T>* cn, Node<T>** parent) {
+	Node<T>* newRoot = cn->getLeftChild();
+	Node<T>* tempRC = newRoot->getRightChild();
+	*parent = newRoot;
+	newRoot->setRightChild(*cn);
+	cn->setLeftChild(*tempRC);	
 }
 
 template <typename T>
