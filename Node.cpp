@@ -36,6 +36,11 @@ void Node<T>::decBalance() {
 }
 
 template <typename T>
+void Node<T>::resetBalance() {
+	balance = 0;
+}
+
+template <typename T>
 Node<T>*& Node<T>::getLeftChild() {
 	return leftChild;
 }

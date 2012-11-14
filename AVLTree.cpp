@@ -55,16 +55,26 @@ void AVLTree<T>::insert(T v) {
 	
 	else {
 
+		//keep a parent pointer
+		Node<T>** dad = &root;
+		
 		//Critical node is null by default
 		cn = 0;
 		
 		//find spot for new node, keep track of potential cns
 		while (*curr != 0) {
+			//dad = curr;			
 			if (v < (*curr)->getValue()) {
-				if ((*curr)->getBalance() == -1) cn = *curr;
+				if ((*curr)->getBalance() == -1) {
+					cn = *curr;
+					dad = &*curr;
+				}
 				curr = &((*curr)->getLeftChild());
 			} else if (v > (*curr)->getValue()) {
-				if ((*curr)->getBalance() == 1) cn = *curr;				
+				if ((*curr)->getBalance() == 1) {
+					cn = *curr;	
+					dad = &*curr;
+				}
 				curr = &((*curr)->getRightChild());
 			}
 		}
@@ -76,18 +86,12 @@ void AVLTree<T>::insert(T v) {
 		if (cn) {			
 			cout << "Cn found: " << cn->getValue() << endl;
 			curr = &cn;
-			//cout << "curr is " << curr << endl;
-			cout << "root->getLeftChild() is " << root->getLeftChild() << endl;
-			cout << "*curr is " << *curr << endl;
 			
-			if ((*curr)->getBalance()==-1) {
-				cout << "Do right rotation" << endl;
-				//rightRotation(cn, curr);
-				//cout << "Calling rightRotation with root->getLeftChild()" << endl;
-				//rightRotation(cn, &(root->getLeftChild()));	
-				cout << "Calling rightRotation with &(*curr)" << endl;				
-				rightRotation(cn, &(*curr));	
-				//cn->setBalance(0);
+			if ((*curr)->getBalance()==-1) {	
+				rightRotation(cn, dad);
+				
+				//reset cn balance to zero
+				cn->resetBalance();
 			}
 			
 		}
@@ -111,17 +115,9 @@ void AVLTree<T>::insert(T v) {
 
 template <typename T>
 void AVLTree<T>::rightRotation(Node<T>* cn, Node<T>** parent) {
-	cout << "Testing cn: " << cn << endl;
-	cout << "Testing cn value: " << cn->getValue() << endl;
-	cout << "Testing cn leftChild: " << cn->getLeftChild() << endl;
 	
 	Node<T>* newRoot = cn->getLeftChild();
-	cout << "Hello?" << endl;
-	cout << "new root is " << newRoot->getValue() << endl;
-	cout << "new root's right child is " << newRoot->getRightChild() << endl;
-	Node<T>* tempRC = newRoot->getRightChild();
-	cout << "Vars assigned" << endl;	
-	
+	Node<T>* tempRC = newRoot->getRightChild();	
 	*parent = newRoot;
 	newRoot->setRightChild(*cn);
 	cn->setLeftChild(*tempRC);	
@@ -153,8 +149,8 @@ void AVLTree<T>::practiceRotation() {
 	//rightRotation(root, dad);	
 	
 	//non-root left rotation
-	Node<T>** dad = &(root->getLeftChild());
-	rightRotation(root->getLeftChild(), dad);
+	//Node<T>** dad = &(root->getLeftChild());
+	//rightRotation(root->getLeftChild(), dad);
 	
 }
 
@@ -270,10 +266,7 @@ void AVLTree<T>::traversalPrintPost(Node<T>* n) {
 		traversalPrintPost(n->getLeftChild());
 		traversalPrintPost(n->getRightChild());
 		std::cout << "Value is " << n->getValue() << std::endl;
-		std::cout << "Balance is " << n->getBalance() << endl;
-		std::cout << "Parent is ";		
-		if (n->getParent() == 0) cout << "root" << endl << endl;
-		else cout << n->getParent()->getValue() << endl << endl;		
+		std::cout << "Balance is " << n->getBalance() << endl;		
 	}
 }
 
@@ -289,9 +282,6 @@ void AVLTree<T>::traversalPrintIn(Node<T>* n) {
 		traversalPrintIn(n->getLeftChild());		
 		std::cout << "Value is " << n->getValue() << std::endl;
 		std::cout << "Balance is " << n->getBalance() << endl;
-		std::cout << "Parent is ";
-		if (n->getParent() == 0) cout << "root" << endl << endl;
-		else cout << n->getParent()->getValue() << endl << endl;
 		traversalPrintIn(n->getRightChild());
 	}
 }
