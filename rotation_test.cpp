@@ -15,7 +15,10 @@ int main() {
   s->inOrderTraversal();
   s->insert("iii");
   s->insert("lll");	
-  s->insert("mmm	");	
+  //s->insert("ccc");
+  s->insert("rrr");	
+  //s->insert("zzz");
+  //s->insert("mmm");	
   s->visualPrint("   ", " / ", " \\ ");
   s->inOrderTraversal();
 	
