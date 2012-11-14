@@ -87,12 +87,16 @@ void AVLTree<T>::insert(T v) {
 			cout << "Cn found: " << cn->getValue() << endl;
 			curr = &cn;
 			
-			if ((*curr)->getBalance()==-1) {	
+			if ((*curr)->getBalance() == -1) {	
 				rightRotation(cn, dad);
-				
-				//reset cn balance to zero
-				cn->resetBalance();
 			}
+			
+			if ((*curr)->getBalance()== 1) {	
+				leftRotation(cn, dad);
+			}
+			
+			//reset cn balance to zero
+			cn->resetBalance();			
 			
 		}
 		
@@ -114,8 +118,7 @@ void AVLTree<T>::insert(T v) {
 }
 
 template <typename T>
-void AVLTree<T>::rightRotation(Node<T>* cn, Node<T>** parent) {
-	
+void AVLTree<T>::rightRotation(Node<T>* cn, Node<T>** parent) {	
 	Node<T>* newRoot = cn->getLeftChild();
 	Node<T>* tempRC = newRoot->getRightChild();	
 	*parent = newRoot;

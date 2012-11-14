@@ -8,26 +8,15 @@ int main() {
 
   AVLTree<std::string>* s = new AVLTree<std::string>();	
 
-  //s->insert("ccc");	
   s->insert("ggg");
-  s->insert("ppp");
-  //s->insert("zzz");	
-  s->insert("eee");
-  //s->insert("fff");
-  s->visualPrint("   ", " / ", " \\ ");
-
   s->insert("ddd");	
-  s->insert("aaa");	
-  //s->postOrderTraversal();
-		
+  s->insert("aaa");			
   s->visualPrint("   ", " / ", " \\ ");
   s->inOrderTraversal();
-	
-  /*s->practiceRotation();
+  s->insert("iii");
+  s->insert("lll");	
+  s->insert("mmm	");	
   s->visualPrint("   ", " / ", " \\ ");
-	
   s->inOrderTraversal();
-  s->postOrderTraversal();	
-   */
 	
 }
