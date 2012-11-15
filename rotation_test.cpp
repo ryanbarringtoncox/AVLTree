@@ -10,16 +10,27 @@ int main() {
 
   s->insert("ggg");
   s->insert("ddd");	
-  s->insert("aaa");			
+  s->insert("ccc");		
+	
   s->visualPrint("   ", " / ", " \\ ");
   s->inOrderTraversal();
+	
   s->insert("iii");
   s->insert("lll");	
-  //s->insert("ccc");
-  s->insert("rrr");	
-  //s->insert("zzz");
-  //s->insert("mmm");	
+  //s->insert("rrr");	
+	
   s->visualPrint("   ", " / ", " \\ ");
   s->inOrderTraversal();
+	
+  s->insert("zzz");
+
+  s->visualPrint("   ", " / ", " \\ ");
+  s->inOrderTraversal();	
+	
+  s->insert("bbb");
+  s->insert("aaa");	
+	
+  s->visualPrint("   ", " / ", " \\ ");
+  s->inOrderTraversal();	
 	
 }

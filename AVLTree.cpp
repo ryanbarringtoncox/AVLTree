@@ -63,7 +63,9 @@ void AVLTree<T>::insert(T v) {
 		
 		//find spot for new node, keep track of potential cns
 		while (*curr != 0) {
-			//dad = curr;			
+			
+			if (v == (*curr)->getValue()) return;
+			
 			if (v < (*curr)->getValue()) {
 				if ((*curr)->getBalance() == -1) {
 					cn = *curr;
@@ -84,7 +86,7 @@ void AVLTree<T>::insert(T v) {
 		
 		//if we have a cn do necessary rotations
 		if (cn) {			
-			cout << "Cn found: " << cn->getValue() << endl;
+			//cout << "Cn found: " << cn->getValue() << endl;
 			curr = &cn;
 			
 			if ((*curr)->getBalance() == -1) {	
@@ -124,7 +126,9 @@ void AVLTree<T>::rightRotation(Node<T>* cn, Node<T>** parent) {
 	*parent = newRoot;
 	newRoot->setRightChild(*cn);
 	cn->setLeftChild(*tempRC);	
-	
+
+	//special case
+	if (tempRC != 0 && newRoot->getLeftChild() != 0) newRoot->getLeftChild()->decBalance();
 }
 
 template <typename T>
@@ -134,6 +138,9 @@ void AVLTree<T>::leftRotation(Node<T>* cn, Node<T>** parent) {
 	*parent = newRoot;
 	newRoot->setLeftChild(*cn);
 	cn->setRightChild(*tempLC);	
+	
+	//special case
+	if (tempLC != 0 && newRoot->getRightChild() != 0) newRoot->getRightChild()->incBalance();
 }
 
 //used for building/modifying rotations outside of insert
@@ -206,8 +213,8 @@ void AVLTree<T>::visualPrint(T def, T leftLeg, T rightLeg) {
 	
 	//make 2d vector for glob coordinates, spread is width, level is depth
 	int s; int l;
-	TwoDArray<T>* tda = new TwoDArray<T>(14, 20, def);
-	int spread_middle = 10;
+	TwoDArray<T>* tda = new TwoDArray<T>(8, 15, def);
+	int spread_middle = 7;
 	
 	//begin level order traversal of AVLTree and insert into tda
 	Node<T>* curr_node;
