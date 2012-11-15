@@ -153,10 +153,8 @@ void AVLTree<T>::remove(T v) {
 	while(*curr!=0 && (*curr)->getValue()!= v) {
 		path.push_back(*curr);
 		if (v < (*curr)->getValue()) {
-			mom=*curr;
 			curr = &((*curr)->getLeftChild());
 		} else if (v > (*curr)->getValue()) {
-			mom=*curr;
 			curr = &((*curr)->getRightChild());
 		}    
 	}
@@ -183,14 +181,17 @@ void AVLTree<T>::remove(T v) {
 			*curr=nodeToRemove->getLeftChild();
 		}	  
 				
+		mom = path.back();
+		path.pop_back();
+		cout << "Mom is " << mom->getValue() << endl;
+		
 		//if mom's balance is zero update and return
 		if (nodeToRemove->getLeftChild()==0 && nodeToRemove->getRightChild()==0) {
 			if (mom->getValue()>nodeToRemove->getValue()) mom->incBalance();
 			else mom->decBalance();
-			delete nodeToRemove;
 		}
 
-		cout << "Pathway to removed node is " << endl;
+		cout << "Mom's heritage is " << endl;
 		while (!path.empty()) {
 			cout << path.back()->getValue() << endl;
 			path.pop_back();
@@ -199,7 +200,14 @@ void AVLTree<T>::remove(T v) {
 		if (mom->getBalance()==-1 | mom->getBalance()==1) return;
 		else {
 			cout << "Your grandparents aren't balanced." << endl;
+			
 		}
+		
+		while (mom->getBalance()==-1 | mom->getBalance()==1) {
+			cout << "Your grandparents aren't balanced." << endl;
+			//mom
+		}
+		delete nodeToRemove;
 	}
 }
 
