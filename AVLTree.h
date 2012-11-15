@@ -28,7 +28,6 @@ public:
 	void visualPrint(T def, T leftLeg, T rightLeg);
 	void postOrderTraversal();
 	void inOrderTraversal();
-	void practiceRotation();
 };
 
 

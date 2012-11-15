@@ -143,27 +143,6 @@ void AVLTree<T>::leftRotation(Node<T>* cn, Node<T>** parent) {
 	if (tempLC != 0 && newRoot->getRightChild() != 0) newRoot->getRightChild()->incBalance();
 }
 
-//used for building/modifying rotations outside of insert
-template <typename T>
-void AVLTree<T>::practiceRotation() {
-	//root left rotation
-	//Node<T>** dad = &root;
-	//leftRotation(root, dad);
-	
-	//non-root left rotation
-	//Node<T>** dad = &(root->getRightChild());
-	//leftRotation(root->getRightChild(), dad);
-	
-	//root right rotation
-	//Node<T>** dad = &root;
-	//rightRotation(root, dad);	
-	
-	//non-root left rotation
-	//Node<T>** dad = &(root->getLeftChild());
-	//rightRotation(root->getLeftChild(), dad);
-	
-}
-
 template <typename T>
 void AVLTree<T>::remove(T v) {
 	Node<T>** curr =&root;
