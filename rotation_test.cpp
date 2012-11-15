@@ -31,6 +31,11 @@ int main() {
   s->insert("aaa");	
 	
   s->visualPrint("   ", " / ", " \\ ");
-  s->inOrderTraversal();	
+  s->inOrderTraversal();
+	
+  s->remove("aaa");
+
+  s->visualPrint("   ", " / ", " \\ ");
+  s->inOrderTraversal();
 	
 }

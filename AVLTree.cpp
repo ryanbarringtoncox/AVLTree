@@ -146,12 +146,17 @@ void AVLTree<T>::leftRotation(Node<T>* cn, Node<T>** parent) {
 template <typename T>
 void AVLTree<T>::remove(T v) {
 	Node<T>** curr =&root;
+	Node<T>* mom;
+	vector<Node<T>*> path;
 	
 	//is v in tree?
 	while(*curr!=0 && (*curr)->getValue()!= v) {
+		path.push_back(*curr);
 		if (v < (*curr)->getValue()) {
+			mom=*curr;
 			curr = &((*curr)->getLeftChild());
 		} else if (v > (*curr)->getValue()) {
+			mom=*curr;
 			curr = &((*curr)->getRightChild());
 		}    
 	}
@@ -177,7 +182,24 @@ void AVLTree<T>::remove(T v) {
 			iop->setRightChild(*(nodeToRemove->getRightChild()));
 			*curr=nodeToRemove->getLeftChild();
 		}	  
-		delete nodeToRemove;
+				
+		//if mom's balance is zero update and return
+		if (nodeToRemove->getLeftChild()==0 && nodeToRemove->getRightChild()==0) {
+			if (mom->getValue()>nodeToRemove->getValue()) mom->incBalance();
+			else mom->decBalance();
+			delete nodeToRemove;
+		}
+
+		cout << "Pathway to removed node is " << endl;
+		while (!path.empty()) {
+			cout << path.back()->getValue() << endl;
+			path.pop_back();
+		}
+		
+		if (mom->getBalance()==-1 | mom->getBalance()==1) return;
+		else {
+			cout << "Your grandparents aren't balanced." << endl;
+		}
 	}
 }
 
