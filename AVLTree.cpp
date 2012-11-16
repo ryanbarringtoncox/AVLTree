@@ -47,6 +47,10 @@ template <typename T>
 void AVLTree<T>::insert(T v) {
 	Node<T>* temp = new Node<T>(v);
 	Node<T>** curr = &root;
+
+	//double rotation flags
+	bool rightLeft = false;
+	//bool leftRight = true;
 	
 	//tree is empty, insert at root
 	if (*curr == 0) {
@@ -71,6 +75,10 @@ void AVLTree<T>::insert(T v) {
 					cn = *curr;
 					dad = &*curr;
 				}
+				if (cn && cn->getBalance() > 0) {
+					cout << "Rotate right then left" << endl;
+					rightLeft = true;
+				}
 				curr = &((*curr)->getLeftChild());
 			} else if (v > (*curr)->getValue()) {
 				if ((*curr)->getBalance() == 1) {
@@ -84,8 +92,8 @@ void AVLTree<T>::insert(T v) {
 		//insert the node
 		*curr = temp;	
 		
-		//if we have a cn do necessary rotations
-		if (cn) {			
+		//single rotations rotations
+		if (cn && !rightLeft) {			
 			//cout << "Cn found: " << cn->getValue() << endl;
 			curr = &cn;
 			
@@ -101,7 +109,11 @@ void AVLTree<T>::insert(T v) {
 			cn->resetBalance();			
 			
 		}
-		
+	
+		if (cn && rightLeft) {
+			rightRotation(cn->getRightChild(), &(cn->getRightChild()));
+		}
+	
 		//else update balances
 		else {			
 			curr = &root;
