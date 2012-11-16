@@ -48,4 +48,10 @@ int main() {
 	s->visualPrint("   ", " / ", " \\ ");
 	s->inOrderTraversal();
 	
+	cout << "Removing zzz..." << endl;;	
+	s->remove("zzz");
+	
+	s->visualPrint("   ", " / ", " \\ ");
+	s->inOrderTraversal();	
+	
 }
