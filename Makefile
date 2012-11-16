@@ -1,7 +1,7 @@
 CPP = g++
 CFLAGS = -Wall -Wextra -Werror
 
-all: rotation_test ttest
+all: ttest
 
 rotation_test: rotation_test.cpp AVLTree.cpp Node.o Glob.o TwoDArray.o
 	$(CPP) $(CFLAGS) -o rotation_test $^
