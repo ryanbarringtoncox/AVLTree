@@ -194,6 +194,18 @@ void AVLTree<T>::remove(T v) {
 		//keep going with grandparents
 		while (mom->getBalance()!=1 && mom->getBalance()!=-1) {		
 			
+			if (mom->getBalance()==2) {
+				cout << "Left rotation needed on " << mom->getValue() << endl;
+				break;
+			}
+			
+			if (mom->getBalance()==-2) {
+				cout << "Right rotation needed on " << mom->getValue() << endl;
+				//cout << "Root is " << (*root).getValue();
+				//rightRotation(mom, &root);
+				break;
+			}
+			
 			if (mom->getBalance()==0) {				
 				currValue = mom->getValue();
 				path.pop_back();
