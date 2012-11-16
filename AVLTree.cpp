@@ -183,14 +183,28 @@ void AVLTree<T>::remove(T v) {
 			*curr=nodeToRemove->getLeftChild();
 		}	  
 		
-		//if leaf removed and mom's balance is zero: update & return
+		//if leaf is removed and mom's balance is zero: update & return
 		if (nodeToRemove->getLeftChild()==0 && nodeToRemove->getRightChild()==0) {
 			mom=path.back();
 			if (mom->getValue()>nodeToRemove->getValue()) mom->incBalance();
 			else mom->decBalance();
+			cout << "mom is " << mom->getValue() << " and mom's balance is " << mom->getBalance() << endl;				
 		}
-				
-		while (mom->getBalance()!=-1 && mom->getBalance()!=1 && !path.empty()) {
+		
+		Node<T>* kid;
+		while (!path.empty() && mom->getBalance()!=1 && mom->getBalance()!=-1) {
+			kid=path.back();
+			path.pop_back();
+			if (!path.empty()) break;
+			mom=path.back();
+			if (kid->getValue()<mom->getValue()) mom->incBalance();
+			else mom->decBalance();
+			cout << "mom is " << mom->getValue() << " and mom's balance is " << mom->getBalance() << endl;	
+			
+		}
+		cout << "First condition" << endl;
+		
+		/*while (mom->getBalance()==-1 && mom->getBalance()==1 && !path.empty()) {
 			cout << "Your grandparents aren't balanced." << endl;
 			mom=path.back();
 			cout << mom->getValue() << endl;
@@ -198,7 +212,7 @@ void AVLTree<T>::remove(T v) {
 			if (mom->getBalance()==2 | mom->getBalance()==-2) cout << "Rotation needed!" << endl;
 			if (mom->getBalance()==1 | mom->getBalance()==-1) return;
 			path.pop_back();						
-		}
+		}*/
 		delete nodeToRemove;
 	}
 }
