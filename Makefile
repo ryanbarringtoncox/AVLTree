@@ -28,3 +28,4 @@ clean:
 	rm -f *.o;
 	rm -f node_test;
 	rm -f rotation_test
+	rm -f ttest
