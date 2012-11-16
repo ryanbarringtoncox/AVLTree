@@ -15,6 +15,7 @@ int main() {
 	
 	s->visualPrint("   ", " / ", " \\ ");
 	s->inOrderTraversal();
+	cout << endl;
 
 	cout << "inserting iii, lll..." << endl;	
 	s->insert("iii");
@@ -22,12 +23,14 @@ int main() {
 	
 	s->visualPrint("   ", " / ", " \\ ");
 	s->inOrderTraversal();
+	cout << endl;
 
 	cout << "inserting zzz..." << endl;	
 	s->insert("zzz");
 
 	s->visualPrint("   ", " / ", " \\ ");
 	s->inOrderTraversal();	
+	cout << endl;
 	
 	cout << "inserting bbb, aaa..." << endl;	
 	s->insert("bbb");
@@ -35,25 +38,28 @@ int main() {
 	
 	s->visualPrint("   ", " / ", " \\ ");
 	s->inOrderTraversal();
+	cout << endl;
 	
 	cout << "Removing aaa..." << endl;	
 	s->remove("aaa");
 
 	s->visualPrint("   ", " / ", " \\ ");
 	s->inOrderTraversal();
+	cout << endl;
 	
 	cout << "Removing ccc..." << endl;	
 	s->remove("ccc");
 	
 	s->visualPrint("   ", " / ", " \\ ");
 	s->inOrderTraversal();
+	cout << endl;
 	
 	cout << "Removing zzz..." << endl;	
 	s->remove("zzz");
 	
 	s->visualPrint("   ", " / ", " \\ ");
 	s->inOrderTraversal();	
-	
+	cout << endl;
 	
 	cout << "Inserting mmm, aaa, removing ggg..." << endl;
 	s->insert("mmm");
@@ -62,4 +68,14 @@ int main() {
 	
 	s->visualPrint("   ", " / ", " \\ ");
 	s->inOrderTraversal();	
+	cout << endl;
+	
+	cout << "Removing aaa, bbb, ddd..." << endl;
+	s->remove("aaa");
+	s->remove("bbb");
+	s->remove("ddd");
+	
+	s->visualPrint("   ", " / ", " \\ ");
+	s->inOrderTraversal();	
+	cout << endl;
 }

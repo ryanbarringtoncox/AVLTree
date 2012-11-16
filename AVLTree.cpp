@@ -121,7 +121,7 @@ void AVLTree<T>::insert(T v) {
 
 template <typename T>
 void AVLTree<T>::rightRotation(Node<T>* cn, Node<T>** parent) {	
-	cout << "Performing Right Rotation..." << endl;
+	cout << "Right rotation on " << cn->getValue() << endl;
 	Node<T>* newRoot = cn->getLeftChild();
 	Node<T>* tempRC = newRoot->getRightChild();	
 	*parent = newRoot;
@@ -134,7 +134,7 @@ void AVLTree<T>::rightRotation(Node<T>* cn, Node<T>** parent) {
 
 template <typename T>
 void AVLTree<T>::leftRotation(Node<T>* cn, Node<T>** parent) {
-	cout << "Performing Left Rotation..." << endl;
+	cout << "Left Rotation on " << cn->getValue() << endl;
 	Node<T>* newRoot = cn->getRightChild();
 	Node<T>* tempLC = newRoot->getLeftChild();
 	*parent = newRoot;
@@ -148,12 +148,12 @@ void AVLTree<T>::leftRotation(Node<T>* cn, Node<T>** parent) {
 template <typename T>
 void AVLTree<T>::remove(T v) {
 	Node<T>** curr =&root;
-	Node<T>* mom;
-		vector<Node<T>*> path;
+	Node<T>** mom;
+		vector<Node<T>**> path;
 	
 	//is v in tree?
 	while(*curr!=0 && (*curr)->getValue()!= v) {
-		path.push_back(*curr);
+		path.push_back(curr);
 		if (v < (*curr)->getValue()) {
 			curr = &((*curr)->getLeftChild());
 		} else if (v > (*curr)->getValue()) {
@@ -185,35 +185,38 @@ void AVLTree<T>::remove(T v) {
 		
 		//update balances through path to root
 		T currValue = v;
-		mom=path.back();
+		mom=&*(path.back());
 		
 		//increment parent as necessary
-		if (currValue < mom->getValue()) mom->incBalance();
-		if (currValue > mom->getValue()) mom->decBalance();
+		if (currValue < ((*mom))->getValue()) (*mom)->incBalance();
+		if (currValue > (*mom)->getValue()) (*mom)->decBalance();
 
 		//keep going with grandparents
-		while (mom->getBalance()!=1 && mom->getBalance()!=-1) {		
+		while ((*mom)->getBalance()!=1 && (*mom)->getBalance()!=-1) {		
 			
-			if (mom->getBalance()==2) {
-				cout << "Left rotation needed on " << mom->getValue() << endl;
-				break;
+			//rotations
+			if ((*mom)->getBalance()==2) {
+				(*mom)->resetBalance();
+				leftRotation(*mom, mom);
+				(*mom)->decBalance();
+				
+			}			
+			if ((*mom)->getBalance()==-2) {
+				(*mom)->resetBalance();
+				rightRotation(*mom, mom);
+				(*mom)->incBalance();
+				
 			}
 			
-			if (mom->getBalance()==-2) {
-				cout << "Right rotation needed on " << mom->getValue() << endl;
-				//cout << "Root is " << (*root).getValue();
-				//rightRotation(mom, &root);
-				break;
-			}
-			
-			if (mom->getBalance()==0) {				
-				currValue = mom->getValue();
+			//balance adjustments
+			if ((*mom)->getBalance()==0) {				
+				currValue = (*mom)->getValue();
 				path.pop_back();
-				if (mom == root) break;
-				mom=path.back();
-				if (mom) {			
-					if (currValue < mom->getValue()) mom->incBalance();
-					if (currValue > mom->getValue()) mom->decBalance();	
+				if (*mom == root) break;
+				mom=&*(path.back());
+				if (*mom) {			
+					if (currValue < (*mom)->getValue()) (*mom)->incBalance();
+					if (currValue > (*mom)->getValue()) (*mom)->decBalance();	
 				}
 			}
 			
@@ -312,6 +315,7 @@ void AVLTree<T>::traversalPrintIn(Node<T>* n) {
 		traversalPrintIn(n->getLeftChild());		
 		std::cout << "Value is " << n->getValue() << std::endl;
 		std::cout << "Balance is " << n->getBalance() << endl;
+		//cout << "It's address is " << n << endl;
 		traversalPrintIn(n->getRightChild());
 	}
 }
