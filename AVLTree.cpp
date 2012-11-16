@@ -121,6 +121,7 @@ void AVLTree<T>::insert(T v) {
 
 template <typename T>
 void AVLTree<T>::rightRotation(Node<T>* cn, Node<T>** parent) {	
+	cout << "Performing Right Rotation..." << endl;
 	Node<T>* newRoot = cn->getLeftChild();
 	Node<T>* tempRC = newRoot->getRightChild();	
 	*parent = newRoot;
@@ -133,6 +134,7 @@ void AVLTree<T>::rightRotation(Node<T>* cn, Node<T>** parent) {
 
 template <typename T>
 void AVLTree<T>::leftRotation(Node<T>* cn, Node<T>** parent) {
+	cout << "Performing Left Rotation..." << endl;
 	Node<T>* newRoot = cn->getRightChild();
 	Node<T>* tempLC = newRoot->getLeftChild();
 	*parent = newRoot;
@@ -180,32 +182,22 @@ void AVLTree<T>::remove(T v) {
 			iop->setRightChild(*(nodeToRemove->getRightChild()));
 			*curr=nodeToRemove->getLeftChild();
 		}	  
-				
-		mom = path.back();
-		path.pop_back();
-		cout << "Mom is " << mom->getValue() << endl;
 		
-		//if mom's balance is zero update and return
+		//if leaf removed and mom's balance is zero: update & return
 		if (nodeToRemove->getLeftChild()==0 && nodeToRemove->getRightChild()==0) {
+			mom=path.back();
 			if (mom->getValue()>nodeToRemove->getValue()) mom->incBalance();
 			else mom->decBalance();
 		}
-
-		cout << "Mom's heritage is " << endl;
-		while (!path.empty()) {
-			cout << path.back()->getValue() << endl;
-			path.pop_back();
-		}
-		
-		if (mom->getBalance()==-1 | mom->getBalance()==1) return;
-		else {
+				
+		while (mom->getBalance()!=-1 && mom->getBalance()!=1 && !path.empty()) {
 			cout << "Your grandparents aren't balanced." << endl;
-			
-		}
-		
-		while (mom->getBalance()==-1 | mom->getBalance()==1) {
-			cout << "Your grandparents aren't balanced." << endl;
-			//mom
+			mom=path.back();
+			cout << mom->getValue() << endl;
+			if (nodeToRemove->getValue()>mom->getValue()) mom->decBalance();
+			if (mom->getBalance()==2 | mom->getBalance()==-2) cout << "Rotation needed!" << endl;
+			if (mom->getBalance()==1 | mom->getBalance()==-1) return;
+			path.pop_back();						
 		}
 		delete nodeToRemove;
 	}
