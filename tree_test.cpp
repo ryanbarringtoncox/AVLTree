@@ -78,4 +78,30 @@ int main() {
 	s->visualPrint("   ", " / ", " \\ ");
 	s->inOrderTraversal();	
 	cout << endl;
+
+	cout << "Inserting zzz, rrr..." << endl;
+	s->insert("zzz");
+	s->insert("rrr");
+
+	s->visualPrint("   ", " / ", " \\ ");
+	s->inOrderTraversal();	
+	cout << endl;
+	
+	cout << "Removing mmm, zzz, rrr..." << endl;
+	s->remove("mmm");
+	s->remove("zzz");
+	s->remove("rrr");
+	
+	s->visualPrint("   ", " / ", " \\ ");
+	s->inOrderTraversal();	
+	cout << endl;
+	
+	cout << "inserting jjj..." << endl;	
+	s->insert("jjj");
+	
+	s->visualPrint("   ", " / ", " \\ ");
+	s->inOrderTraversal();	
+	cout << endl;
+	
+	delete s;
 }

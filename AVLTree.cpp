@@ -50,7 +50,7 @@ void AVLTree<T>::insert(T v) {
 
 	//double rotation flags
 	bool rightLeft = false;
-	//bool leftRight = true;
+	bool leftRight = false;
 	
 	//tree is empty, insert at root
 	if (*curr == 0) {
@@ -85,6 +85,10 @@ void AVLTree<T>::insert(T v) {
 					cn = *curr;	
 					dad = &*curr;
 				}
+				if (cn && cn->getBalance() < 0) {
+					cout << "Rotate left then right" << endl;
+					leftRight = true;
+				}
 				curr = &((*curr)->getRightChild());
 			}
 		}
@@ -92,8 +96,24 @@ void AVLTree<T>::insert(T v) {
 		//insert the node
 		*curr = temp;	
 		
-		//single rotations rotations
-		if (cn && !rightLeft) {			
+		
+		//no cn, update balances
+		if (!cn) {			
+			curr = &root;
+			while (*curr != 0) {
+				if (v < (*curr)->getValue()) {
+					(*curr)->decBalance();
+					curr = &((*curr)->getLeftChild());
+				} else if (v > (*curr)->getValue()) {
+					(*curr)->incBalance();					
+					curr = &((*curr)->getRightChild());
+				}
+				else if (v == (*curr)->getValue()) break;
+			}			
+		}		
+		
+		//single rotations
+		if (cn && !rightLeft && !leftRight) {			
 			//cout << "Cn found: " << cn->getValue() << endl;
 			curr = &cn;
 			
@@ -109,24 +129,17 @@ void AVLTree<T>::insert(T v) {
 			cn->resetBalance();			
 			
 		}
-	
+			
+		//double rotations
 		if (cn && rightLeft) {
 			rightRotation(cn->getRightChild(), &(cn->getRightChild()));
+			leftRotation(cn, dad);
+			cn->resetBalance();
 		}
-	
-		//else update balances
-		else {			
-			curr = &root;
-			while (*curr != 0) {
-				if (v < (*curr)->getValue()) {
-					(*curr)->decBalance();
-					curr = &((*curr)->getLeftChild());
-				} else if (v > (*curr)->getValue()) {
-					(*curr)->incBalance();					
-					curr = &((*curr)->getRightChild());
-				}
-				else if (v == (*curr)->getValue()) break;
-			}			
+		if (cn && leftRight) {
+			leftRotation(cn->getLeftChild(), &(cn->getLeftChild()));
+			rightRotation(cn, dad);
+			cn->resetBalance();
 		}
 	}
 }
